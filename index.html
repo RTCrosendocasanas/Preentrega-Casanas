@@ -14,6 +14,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <div class="container">
@@ -40,14 +41,19 @@
             <img src="img/carrito.png" width="50" alt="Carrito" /><span
               id="totalCarrito"
               class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-            ></span>
+              >0</span
+            >
           </a>
         </div>
       </div>
     </div>
     <div class="container my-5">
+      <div id="contenidoIndex" class="row"></div>
+    </div>
+    <div class="container">
       <div id="contenido" class="row"></div>
     </div>
+    <script src="js/funciones.js"></script>
     <div class="containerf-fluid bg-danger">
       <div class="container">
         <div class="row">
