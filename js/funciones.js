@@ -7,22 +7,7 @@ const cargarProductosLS = () => {
 };
 
 const renderProductos = () => {
-  const productos = cargarProductosLS();
-  let contenidoHTML = "";
-
-  productos.forEach((producto) => {
-    contenidoHTML += `<div class="col-md-7 mb-5 text-center">
-        <div class="card">
-        <a href="producto.html" onclick="guardarProductoLS(${producto.id})"><img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}"></a>
-        <div class="card-body">
-          <h5 class="card-title">${producto.nombre}</h5>
-          <p class="card-text">$${producto.precio}</p>
-          <a href="#" class="btn btn-danger" onclick="agregarAlCarrito(${producto.id})">Agregar (+)</a>
-        </div>
-        </div>
-        </div>`;
-  });
-
+  cargarProductosDesdeJSON();
   document.getElementById("contenido").innerHTML = contenidoHTML;
 };
 // ...funciones para el carrito
@@ -107,20 +92,33 @@ const eliminarDelCarrito = (id) => {
     renderCarrito();
   }
 };
-// Obtener productos desde un archivo JSON utilizando AJAX
+
+
 const cargarProductosDesdeJSON = () => {
-    return fetch('productos.json')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error al cargar los productos');
-        }
-        return response.json();
-      })
-      .then((productos) => {
-        guardarProductosLS(productos); // Guardar productos en el almacenamiento local
-        renderProductos(); // Renderizar los productos
-      })
-      .catch((error) => {
-        console.error(error);
+  fetch('productos.json')
+    .then(response => response.json())
+    .then(data => { 
+      const productosJson = data;
+
+      let contenidoHTML = "";
+
+      productosJson.forEach((producto) => {
+        contenidoHTML += `<div class="col-md-7 mb-5 text-center">
+            <div class="card">
+            <div class="card-body">
+              <a href="#"><img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}"></a>
+              <h5 class="card-title">${producto.nombre}</h5>
+              <p class="card-text">$${producto.precio}</p>
+              <a href="#" class="btn btn-danger" onclick="agregarAlCarrito(${producto.id})">Agregar (+)</a>
+            </div>
+            </div>
+            </div>`;
       });
-  };
+      
+      localStorage.setItem("productos", JSON.stringify(productosJson));
+      document.getElementById("contenido").innerHTML = contenidoHTML;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
